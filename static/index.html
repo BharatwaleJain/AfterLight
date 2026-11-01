@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f1e7">
+  <meta name="description" content="Afterlight is a small, private space to save family memories and turn them into a remembrance using AI that runs on your own device.">
+  <title>AfterLight</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Afterlight home">
+      <span class="brand-mark" aria-hidden="true">अ</span>
+      <span class="brand-name">AFTERLIGHT</span>
+    </a>
+    <div class="top-meta">
+      <span class="local-tag"><i class="status-dot" id="statusDot"></i><span id="statusText">CHECKING OLLAMA</span></span>
+      <span class="edition">A SMALL MEMORY PROJECT · 01 NOV</span>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="intro">
+      <div class="intro-copy">
+        <p class="eyebrow"><span class="eyebrow-line"></span> A PLACE FOR THE STORIES WE KEEP</p>
+        <h1>Yaadein<br><em>rehti hain.</em></h1>
+        <p class="intro-text">A memory can be an old photo album, the evening chai, a train journey home, a recipe, or one familiar line. Afterlight is a small place to save those details and keep the stories going.</p>
+        <div class="intro-foot"><span class="intro-diya" aria-hidden="true">✦</span> INSPIRED BY THE WAY WE REMEMBER AT HOME</div>
+      </div>
+
+      <div class="diya-scene" role="img" aria-label="A small glowing diya with marigold petals">
+        <span class="scene-note scene-note-top">YAADON KA DIYA</span>
+        <span class="scene-note scene-note-bottom">A LITTLE LIGHT, KEPT CLOSE</span>
+        <div class="rangoli rangoli-one"></div>
+        <div class="rangoli rangoli-two"></div>
+        <span class="petal petal-one"></span>
+        <span class="petal petal-two"></span>
+        <span class="petal petal-three"></span>
+        <span class="petal petal-four"></span>
+        <div class="diya-wrap">
+          <span class="diya-flame"><i></i></span>
+          <span class="diya-wick"></span>
+          <span class="diya-bowl"></span>
+          <span class="diya-base"></span>
+        </div>
+        <span class="scene-dot dot-one"></span>
+        <span class="scene-dot dot-two"></span>
+        <span class="scene-dot dot-three"></span>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <div class="editor-column">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">01 / START WITH A PERSON</p>
+            <h2>Who are we remembering?</h2>
+          </div>
+          <div class="heading-actions">
+            <button class="text-button" id="newButton" type="button">New memory +</button>
+            <button class="text-button" id="demoButton" type="button">Try an example</button>
+          </div>
+        </div>
+
+        <form id="memoryForm" class="memory-form">
+          <div class="form-row">
+            <label class="field">
+              <span>Their name <b>*</b></span>
+              <input id="name" maxlength="100" placeholder="What did you call them?" required>
+            </label>
+            <label class="field">
+              <span>Who were they to you?</span>
+              <input id="relationship" maxlength="100" placeholder="Nani, dada, friend…">
+            </label>
+          </div>
+
+          <label class="field">
+            <span>A memory you don't want to forget <b>*</b></span>
+            <textarea id="memory" maxlength="7000" rows="5" placeholder="Maybe a Sunday lunch, a train journey, a festival at home, or just an ordinary day. Write it the way you remember it…" required></textarea>
+            <small>English, Hindi, Hinglish, or your own mix is fine. Keep the words that sound like home.</small>
+          </label>
+
+          <label class="field">
+            <span>Things they loved</span>
+            <textarea id="details" maxlength="4000" rows="3" placeholder="A favourite chai, filter coffee, mithai, old songs, cricket on the radio, a place they loved…"></textarea>
+          </label>
+
+          <label class="field">
+            <span>Something they used to say</span>
+            <textarea id="words" maxlength="2000" rows="2" placeholder="A familiar phrase, nickname, advice, or a line in the language they used…"></textarea>
+          </label>
+
+          <div class="form-actions">
+            <button class="button button-primary" id="generateButton" type="submit" aria-label="Write a remembrance with your local model"><span class="button-icon" aria-hidden="true">✦</span> Write a remembrance<span hidden>Light a lantern</span></button>
+            <button class="button button-quiet" id="saveButton" type="button">Save memory</button>
+          </div>
+          <p class="form-note">Your notes stay on this device. When you generate a remembrance, they are sent to the AI model running locally through Ollama — not to a website or cloud API.</p>
+        </form>
+      </div>
+
+      <aside class="altar-column">
+        <div class="output-card" id="outputCard">
+          <div class="output-topline">
+            <span class="eyebrow">02 / A FEW WORDS FOR THEM</span>
+            <span class="output-symbol" aria-hidden="true">✳</span>
+          </div>
+
+          <div id="emptyState" class="empty-state">
+            <div class="empty-diya" aria-hidden="true"><span></span></div>
+            <h3>Your story will sit here.</h3>
+            <p>Add a memory on the left. Afterlight will use the local model to shape your notes into a short remembrance. It won't pretend to be the person you're remembering.</p>
+            <div class="empty-rule"></div>
+            <span class="empty-caption">NO CLOUD ACCOUNT. JUST YOUR OWN WORDS.</span>
+          </div>
+
+          <div id="resultState" class="result-state" hidden>
+            <p class="result-kicker">A MEMORY, IN YOUR WORDS</p>
+            <h3 id="resultTitle"></h3>
+            <p id="resultRemembrance" class="result-remembrance"></p>
+            <div class="lantern-note"><span aria-hidden="true">✦</span><p id="resultNote"></p></div>
+            <div class="result-footer">
+              <span id="modelUsed">WRITTEN LOCALLY</span>
+              <button class="text-button" id="copyButton" type="button">Copy text ↗</button>
+            </div>
+          </div>
+
+          <div id="loadingState" class="loading-state" hidden>
+            <div class="loading-diya" aria-hidden="true"><span></span></div>
+            <p class="loading-title">Putting the memories together…</p>
+            <p class="loading-copy">The model is running on this device. The first response may take a little longer.</p>
+          </div>
+        </div>
+
+        <div class="privacy-note">
+          <span class="lock-icon" aria-hidden="true">⌑</span>
+          <div>
+            <strong>Your memories stay yours.</strong>
+            <p>The archive is saved in a file on your computer. After setup, the AI can work without an internet connection.</p>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="archive-section">
+      <div class="archive-heading">
+        <div>
+          <p class="eyebrow">03 / SAVED ON THIS DEVICE</p>
+          <h2>Your memory shelf.</h2>
+        </div>
+        <div class="archive-actions">
+          <span id="archiveCount" class="archive-count">0 MEMORIES</span>
+          <a href="/api/export" class="text-button export-link" id="exportLink">Export memories ↓</a>
+        </div>
+      </div>
+      <div id="archiveList" class="archive-list"><div class="archive-empty">Nothing saved yet. The memories you save will appear here.</div></div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-brand"><span class="footer-flame" aria-hidden="true">✦</span> afterlight</div>
+      <p>MADE WITH OPEN-SOURCE AI · RUNS ON YOUR OWN DEVICE</p>
+      <span class="footer-date">Yaadein rehti hain.</span>
+    </footer>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>
